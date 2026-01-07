@@ -1,0 +1,653 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="olympus_v4_instanceable_open">
+<link name="world"/> 
+
+<link name="InnerShank_BL">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0. 0. 0." rpy="-0. 0.0000005 -1.5707961" />
+    <geometry>
+      <mesh filename="meshes/InnerShank_BL_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <!--collision>
+    <origin xyz="0. -0.0202064 -0.1502008" rpy="-0. -0.0523594 -1.5707961" />
+    <geometry>
+      <cylinder radius="0.015" length="0.3" />
+    </geometry>
+  </collision-->
+</link>
+<link name="InnerShank_BR">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0. 0. 0." rpy="-0. 0.0000005 -1.5707961" />
+    <geometry>
+      <mesh filename="meshes/InnerShank_BR_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <!--collision>
+    <origin xyz="0. -0.0202064 -0.1502008" rpy="-0. -0.0523594 -1.5707961" />
+    <geometry>
+      <cylinder radius="0.015" length="0.3" />
+    </geometry>
+  </collision-->
+</link>
+<link name="InnerShank_FL">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0. 0. 0." rpy="-0. -0.0000057 1.5707964" />
+    <geometry>
+      <mesh filename="meshes/InnerShank_FL_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <!--collision>
+    <origin xyz="0. -0.0202091 -0.1502009" rpy="-0. 0.0523542 1.5707964" />
+    <geometry>
+      <cylinder radius="0.015" length="0.3" />
+    </geometry>
+  </collision-->
+</link>
+<link name="InnerShank_FR">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0. 0. 0." rpy="-0. -0.0000057 1.5707964" />
+    <geometry>
+      <mesh filename="meshes/InnerShank_FR_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <!--collision>
+    <origin xyz="0. -0.0202091 -0.1502009" rpy="-0. 0.0523542 1.5707964" />
+    <geometry>
+      <cylinder radius="0.015" length="0.3" />
+    </geometry>
+  </collision-->
+</link>
+<link name="InnerThigh_BL">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0. 0. 0." rpy="0. 0. 1.5707961" />
+    <geometry>
+      <mesh filename="meshes/InnerThigh_BL_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <!--collision>
+    <origin xyz="0. 0. -0.0843053" rpy="0. 0. 1.5707961" />
+    <geometry>
+      <box size="0.04 0.01 0.18" />
+    </geometry>
+  </collision-->
+</link>
+<link name="InnerThigh_BR">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0. 0. 0." rpy="0. 0. 1.5707961" />
+    <geometry>
+      <mesh filename="meshes/InnerThigh_BR_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <!--collision>
+    <origin xyz="0. 0. -0.0843053" rpy="0. 0. 1.5707961" />
+    <geometry>
+      <box size="0.04 0.01 0.18" />
+    </geometry>
+  </collision-->
+</link>
+<link name="InnerThigh_FL">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0. 0. 0." rpy="0. 0. -1.5707961" />
+    <geometry>
+      <mesh filename="meshes/InnerThigh_FL_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <!--collision>
+    <origin xyz="0. 0. -0.0843053" rpy="0. 0. -1.5707961" />
+    <geometry>
+      <box size="0.04 0.01 0.18" />
+    </geometry>
+  </collision-->
+</link>
+<link name="InnerThigh_FR">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0. 0. 0." rpy="0. 0. -1.5707961" />
+    <geometry>
+      <mesh filename="meshes/InnerThigh_FR_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <!--collision>
+    <origin xyz="0. 0. -0.0843053" rpy="0. 0. -1.5707961" />
+    <geometry>
+      <box size="0.04 0.01 0.18" />
+    </geometry>
+  </collision-->
+</link>
+<link name="MotorHosing_BL">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <geometry>
+      <mesh filename="meshes/MotorHosing_BL_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+</link>
+<link name="MotorHousing_BR">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0. 0. 0." rpy="0. 0. -3.1415927" />
+    <geometry>
+      <mesh filename="meshes/MotorHousing_BR_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+</link>
+<link name="MotorHousing_FL">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <geometry>
+      <mesh filename="meshes/MotorHousing_FL_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+</link>
+<link name="MotorHousing_FR">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0. 0. 0." rpy="3.1415927 0.0000001 3.1415927" />
+    <geometry>
+      <mesh filename="meshes/MotorHousing_FR_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+</link>
+<link name="Body">
+  <visual>
+    <origin xyz="0. 0. 1." rpy="0. 0. 0." />
+    <geometry>
+      <mesh filename="meshes/Body_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <!--collision>
+    <origin xyz="0. 0. 1.0155424" rpy="0. 0. 0." />
+    <geometry>
+      <box size="0.24 0.23 0.13" />
+    </geometry>
+  </collision-->
+  <!--collision>
+    <origin xyz="0. 0. 1.0330414" rpy="0. 0. 0." />
+    <geometry>
+      <box size="0.7 0.15 0.15" />
+    </geometry>
+  </collision-->
+  <!--collision>
+    <origin xyz="0.1182589 -0.0947598 1. " rpy="0. 1.5707964 0. " />
+    <geometry>
+      <cylinder radius="0.06" length="0.04" />
+    </geometry>
+  </collision-->
+  <!--collision>
+    <origin xyz="0.1182589 0.09476 1. " rpy="0. 1.5707964 0. " />
+    <geometry>
+      <cylinder radius="0.06" length="0.04" />
+    </geometry>
+  </collision-->
+  <!--collision>
+    <origin xyz="-0.121796 0.1391862 1. " rpy="0. 1.5707964 0. " />
+    <geometry>
+      <cylinder radius="0.06" length="0.04" />
+    </geometry>
+  </collision-->
+  <!--collision>
+    <origin xyz="-0.121796 -0.13919 1. " rpy="0. 1.5707964 0. " />
+    <geometry>
+      <cylinder radius="0.06" length="0.04" />
+    </geometry>
+  </collision-->
+</link>
+<link name="OuterShank_BL">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0. 0. 0." rpy="-0. -0.0000045 1.5707963" />
+    <geometry>
+      <mesh filename="meshes/OuterShank_BL_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <!--collision>
+    <origin xyz="0. -0.00643 -0.1501257" rpy="-0. -0.0523644 1.5707963" />
+    <geometry>
+      <cylinder radius="0.015" length="0.3" />
+    </geometry>
+  </collision-->
+</link>
+<link name="OuterShank_BR">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0. 0. 0." rpy="-0. -0.0000045 1.5707963" />
+    <geometry>
+      <mesh filename="meshes/OuterShank_BR_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <!--collision>
+    <origin xyz="0. -0.00643 -0.1501257" rpy="-0. -0.0523644 1.5707963" />
+    <geometry>
+      <cylinder radius="0.015" length="0.3" />
+    </geometry>
+  </collision-->
+</link>
+<link name="OuterShank_FL">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0. 0. 0." rpy="0. 0.0000006 -1.5707964" />
+    <geometry>
+      <mesh filename="meshes/OuterShank_FL_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <!--collision>
+    <origin xyz="0. -0.0064299 -0.1501257" rpy="0. 0.0523605 -1.5707964" />
+    <geometry>
+      <cylinder radius="0.015" length="0.3" />
+    </geometry>
+  </collision-->
+</link>
+<link name="OuterShank_FR">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0. 0. 0." rpy="0. 0.0000006 -1.5707964" />
+    <geometry>
+      <mesh filename="meshes/OuterShank_FR_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <!--collision>
+    <origin xyz="0. -0.0064299 -0.1501257" rpy="0. 0.0523605 -1.5707964" />
+    <geometry>
+      <cylinder radius="0.015" length="0.3" />
+    </geometry>
+  </collision-->
+</link>
+<link name="OuterThigh_BL">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0. 0. 0." rpy="0. 0. -1.5707961" />
+    <geometry>
+      <mesh filename="meshes/OuterThigh_BL_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <!--collision>
+    <origin xyz="0. 0. -0.0843053" rpy="0. 0. -1.5707961" />
+    <geometry>
+      <box size="0.04 0.01 0.18" />
+    </geometry>
+  </collision-->
+</link>
+<link name="OuterThigh_BR">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0. 0. 0." rpy="0. 0. -1.5707961" />
+    <geometry>
+      <mesh filename="meshes/OuterThigh_BR_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <!--collision>
+    <origin xyz="0. 0. -0.0843053" rpy="0. 0. -1.5707961" />
+    <geometry>
+      <box size="0.04 0.01 0.18" />
+    </geometry>
+  </collision-->
+</link>
+<link name="OuterThigh_FL">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0. 0. 0." rpy="0. 0. 1.5707961" />
+    <geometry>
+      <mesh filename="meshes/OuterThigh_FL_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <!--collision>
+    <origin xyz="0. 0. -0.0843053" rpy="0. 0. 1.5707961" />
+    <geometry>
+      <box size="0.04 0.01 0.18" />
+    </geometry>
+  </collision-->
+</link>
+<link name="OuterThigh_FR">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0. 0. 0." rpy="0. 0. 1.5707961" />
+    <geometry>
+      <mesh filename="meshes/OuterThigh_FR_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <!--collision>
+    <origin xyz="0. 0. -0.0843053" rpy="0. 0. 1.5707961" />
+    <geometry>
+      <box size="0.04 0.01 0.18" />
+    </geometry>
+  </collision-->
+</link>
+<link name="Paw_BL">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0.0000001 0. -0.0000001" rpy="0. -1.5707958 -0. " />
+    <geometry>
+      <mesh filename="meshes/Paw_BL_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <visual>
+    <origin xyz="0.0000001 0. -0.0000001" rpy="0. -1.5707958 -0. " />
+    <geometry>
+      <mesh filename="meshes/Paw_BL_collisions_xform_collisions.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <!--collision>
+    <origin xyz="0.0000001 0. -0.0000001" rpy="0. -1.5707958 -0. " />
+    <geometry>
+      <mesh filename="meshes/Paw_BL_collisions_xform_collisions.obj" scale="1. 1. 1." />
+    </geometry>
+  </collision-->
+</link>
+<link name="Paw_BR">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0.0000001 0. -0.0000001" rpy="-0. -1.5707958 0. " />
+    <geometry>
+      <mesh filename="meshes/Paw_BR_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <visual>
+    <origin xyz="0.0000001 0. -0.0000001" rpy="-0. -1.5707958 0. " />
+    <geometry>
+      <mesh filename="meshes/Paw_BR_collisions_xform_collisions.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <!--collision>
+    <origin xyz="0.0000001 0. -0.0000001" rpy="-0. -1.5707958 0. " />
+    <geometry>
+      <mesh filename="meshes/Paw_BR_collisions_xform_collisions.obj" scale="1. 1. 1." />
+    </geometry>
+  </collision-->
+</link>
+<link name="Paw_FL">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0.0000001 0. 0.0000001" rpy="-3.1415925 -1.5707958 3.1415925" />
+    <geometry>
+      <mesh filename="meshes/Paw_FL_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <visual>
+    <origin xyz="0.0000001 0. 0.0000001" rpy="-3.1415925 -1.5707958 3.1415925" />
+    <geometry>
+      <mesh filename="meshes/Paw_FL_collisions_xform_collisions.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <!--collision>
+    <origin xyz="0.0000001 0. 0.0000001" rpy="-3.1415925 -1.5707958 3.1415925" />
+    <geometry>
+      <mesh filename="meshes/Paw_FL_collisions_xform_collisions.obj" scale="1. 1. 1." />
+    </geometry>
+  </collision-->
+</link>
+<link name="Paw_FR">
+  <inertial>
+    <origin xyz="0. 0. 0." rpy="0. 0. 0." />
+    <mass value="1.0" />
+    <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+  </inertial>
+  <visual>
+    <origin xyz="0.0000001 0. 0.0000001" rpy="-3.1415925 -1.5707958 3.1415925" />
+    <geometry>
+      <mesh filename="meshes/Paw_FR_visuals_xform_visuals.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <visual>
+    <origin xyz="0.0000001 0. 0.0000001" rpy="-3.1415925 -1.5707958 3.1415925" />
+    <geometry>
+      <mesh filename="meshes/Paw_FR_collisions_xform_collisions.obj" scale="1. 1. 1." />
+    </geometry>
+  </visual>
+  <!--collision>
+    <origin xyz="0.0000001 0. 0.0000001" rpy="-3.1415925 -1.5707958 3.1415925" />
+    <geometry>
+      <mesh filename="meshes/Paw_FR_collisions_xform_collisions.obj" scale="1. 1. 1." />
+    </geometry>
+  </collision-->
+</link>
+
+<joint name="world_joint" type="fixed">
+  <parent link="world"/>
+  <child link="Body"/>
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+</joint>
+
+<joint name="BackLeft_paw" type="fixed">
+  <origin xyz="0. -0.034316 -0.3182872" rpy="3.1415927 0.9830509 -1.5707963" />
+  <parent link="InnerShank_BL" />
+  <child link="Paw_BL" />
+</joint>
+<joint name="BackRight_paw" type="fixed">
+  <origin xyz="0. -0.034316 -0.3182872" rpy="3.1415927 0.9830509 -1.5707961" />
+  <parent link="InnerShank_BR" />
+  <child link="Paw_BR" />
+</joint>
+<joint name="FrontLeft_paw" type="fixed">
+  <origin xyz="0. -0.0343144 -0.3182873" rpy="0. 0.9830561 -1.5707963" />
+  <parent link="InnerShank_FL" />
+  <child link="Paw_FL" />
+</joint>
+<joint name="FrontRight_paw" type="fixed">
+  <origin xyz="0. -0.0343144 -0.3182873" rpy="0. 0.9830561 -1.5707963" />
+  <parent link="InnerShank_FR" />
+  <child link="Paw_FR" />
+</joint>
+<joint name="InnerKnee_BL" type="continuous">
+  <origin xyz="-0.00075 0. -0.175 " rpy="0.1561075 0. 3.1415925" />
+  <parent link="InnerThigh_BL" />
+  <child link="InnerShank_BL" />
+  <axis xyz="1. 0. 0." />
+</joint>
+<joint name="InnerKnee_BR" type="continuous">
+  <origin xyz="0.00075 -0. -0.175 " rpy="0.1561075 0. 3.1415925" />
+  <parent link="InnerThigh_BR" />
+  <child link="InnerShank_BR" />
+  <axis xyz="1. 0. 0." />
+</joint>
+<joint name="InnerKnee_FL" type="continuous">
+  <origin xyz="0.00075 0. -0.175 " rpy="0.1561023 0. -3.1415925" />
+  <parent link="InnerThigh_FL" />
+  <child link="InnerShank_FL" />
+  <axis xyz="1. 0. 0." />
+</joint>
+<joint name="InnerKnee_FR" type="continuous">
+  <origin xyz="-0.00075 -0. -0.175 " rpy="0.1561023 0. -3.1415925" />
+  <parent link="InnerThigh_FR" />
+  <child link="InnerShank_FR" />
+  <axis xyz="1. 0. 0." />
+</joint>
+<joint name="InnerTransversalMotor_BL" type="continuous">
+  <origin xyz="-0.0517 0.05945 0.0000113" rpy="0. 0. -1.5707964" />
+  <parent link="MotorHosing_BL" />
+  <child link="InnerThigh_BL" />
+  <axis xyz="1. 0. 0." />
+</joint>
+<joint name="InnerTransversalMotor_BR" type="continuous">
+  <origin xyz="0.0517 0.05945 -0.0000113" rpy="0. 0. 1.5707964" />
+  <parent link="MotorHousing_BR" />
+  <child link="InnerThigh_BR" />
+  <axis xyz="1. 0. 0." />
+</joint>
+<joint name="InnerTransversalMotor_FL" type="continuous">
+  <origin xyz="0.0517 0.05945 -0.0000113" rpy="0. 0. 1.5707964" />
+  <parent link="MotorHousing_FL" />
+  <child link="InnerThigh_FL" />
+  <axis xyz="1. 0. 0." />
+</joint>
+<joint name="InnerTransversalMotor_FR" type="continuous">
+  <origin xyz="-0.0517 -0.05945 -0.0000113" rpy="3.1415925 0. 1.5707964" />
+  <parent link="MotorHousing_FR" />
+  <child link="InnerThigh_FR" />
+  <axis xyz="1. 0. 0." />
+</joint>
+<joint name="LateralMotor_BL" type="continuous">
+  <origin xyz="-0.1433 0.15 1. " rpy="0. 0. 0." />
+  <parent link="Body" />
+  <child link="MotorHosing_BL" />
+  <axis xyz="1. 0. 0." />
+</joint>
+<joint name="LateralMotor_BR" type="continuous">
+  <origin xyz="-0.1433 -0.15 1. " rpy="0. 0. 3.1415927" />
+  <parent link="Body" />
+  <child link="MotorHousing_BR" />
+  <axis xyz="1. 0. 0." />
+</joint>
+<joint name="LateralMotor_FL" type="continuous">
+  <origin xyz="0.1433 0.105 1. " rpy="0. 0. 0." />
+  <parent link="Body" />
+  <child link="MotorHousing_FL" />
+  <axis xyz="1. 0. 0." />
+</joint>
+<joint name="LateralMotor_FR" type="continuous">
+  <origin xyz="0.1433 -0.105 1. " rpy="3.1415927 -0.0000001 3.1415927" />
+  <parent link="Body" />
+  <child link="MotorHousing_FR" />
+  <axis xyz="1. 0. 0." />
+</joint>
+<joint name="OuterKneeBL" type="continuous">
+  <origin xyz="0.00075 0. -0.175 " rpy="0.1455256 0. -3.1415925" />
+  <parent link="OuterThigh_BL" />
+  <child link="OuterShank_BL" />
+  <axis xyz="1. 0. 0." />
+</joint>
+<joint name="OuterKnee_BR" type="continuous">
+  <origin xyz="-0.00075 -0. -0.175 " rpy="0.1455256 0. -3.1415925" />
+  <parent link="OuterThigh_BR" />
+  <child link="OuterShank_BR" />
+  <axis xyz="1. 0. 0." />
+</joint>
+<joint name="OuterKnee_FL" type="continuous">
+  <origin xyz="-0.00075 0. -0.175 " rpy="0.1455295 0. 3.1415925" />
+  <parent link="OuterThigh_FL" />
+  <child link="OuterShank_FL" />
+  <axis xyz="1. 0. 0." />
+</joint>
+<joint name="OuterKnee_FR" type="continuous">
+  <origin xyz="0.00075 -0. -0.175 " rpy="0.1455295 0. 3.1415925" />
+  <parent link="OuterThigh_FR" />
+  <child link="OuterShank_FR" />
+  <axis xyz="1. 0. 0." />
+</joint>
+<joint name="OuterTransversalMotor_BL" type="continuous">
+  <origin xyz="-0.1417 0.05945 0.0000113" rpy="0. 0. 1.5707964" />
+  <parent link="MotorHosing_BL" />
+  <child link="OuterThigh_BL" />
+  <axis xyz="1. 0. 0." />
+</joint>
+<joint name="OuterTransversalMotor_BR" type="continuous">
+  <origin xyz="0.1417 0.05945 -0.0000113" rpy="0. 0. -1.5707964" />
+  <parent link="MotorHousing_BR" />
+  <child link="OuterThigh_BR" />
+  <axis xyz="1. 0. 0." />
+</joint>
+<joint name="OuterTransversalMotor_FL" type="continuous">
+  <origin xyz="0.1417 0.05945 -0.0000113" rpy="0. 0. -1.5707964" />
+  <parent link="MotorHousing_FL" />
+  <child link="OuterThigh_FL" />
+  <axis xyz="1. 0. 0." />
+</joint>
+<joint name="OuterTransversalMotor_FR" type="continuous">
+  <origin xyz="-0.1417 -0.05945 -0.0000114" rpy="-3.1415925 0. -1.5707964" />
+  <parent link="MotorHousing_FR" />
+  <child link="OuterThigh_FR" />
+  <axis xyz="1. 0. 0." />
+</joint>
+  
+</robot>

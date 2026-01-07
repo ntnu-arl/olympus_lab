@@ -1,0 +1,803 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="olympus_description">
+
+  <link name="world" />
+
+  <link name="Body">
+    <inertial>
+      <origin xyz="-0.0093903 0.00018696 0.011109" rpy="0 0 0" />
+      <mass value="5.679" />
+      <inertia ixx="0.05428615" ixy="-0.00110179" ixz="-0.0017034" iyy="0.15070598" iyz="0.00013585" izz="0.19574722" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/Body.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/Body.STL" />
+      </geometry>
+    </collision>
+  </link>
+  
+  <joint name="world_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="world" />
+      <child link="Body" />
+  </joint>
+  
+  <link name="MotorHousing_FL">
+    <inertial>
+      <origin xyz="0.092829 0.02913 0.00023828" rpy="0 0 0" />
+      <mass value="1.437" />
+      <inertia ixx="0.00232895" ixy="0.00418147" ixz="3.194E-05" iyy="0.01861991" iyz="4.4E-06" izz="0.01948836" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontLeft_motorHousing.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontLeft_motorHousing.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="LateralMotor_FL" type="revolute">
+    <origin xyz="0.143300000000002 0.104999999999997 0" rpy="0 0 0" />
+    <parent link="Body" />
+    <child link="MotorHousing_FL" />
+    <axis xyz="-1 0 0" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="OuterThigh_FL">
+    <inertial>
+      <origin xyz="0.00087097 -0.0026333 -0.059284" rpy="0 0 0" />
+      <mass value="0.0813" />
+      <inertia ixx="0.00080451" ixy="7E-08" ixz="-1.097E-05" iyy="0.00081035" iyz="-4.68E-06" izz="8.51E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontLeft_hip_outer.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontLeft_hip_outer.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="OuterTransversalMotor_FL" type="revolute">
+    <origin xyz="0.141699999999999 0.0594499999999993 -1.13383701894222E-05" rpy="0 0 0" />
+    <parent link="MotorHousing_FL" />
+    <child link="OuterThigh_FL" />
+    <axis xyz="0 -1 0" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="OuterShank_FL">
+    <inertial>
+      <origin xyz="0.0044745 -6.207E-07 -0.16466" rpy="0 0 0" />
+      <mass value="0.1992" />
+      <inertia ixx="0.0081046" ixy="3E-08" ixz="-8.7E-05" iyy="0.00810896" iyz="-1.7E-06" izz="2.321E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontLeft_shank_outer.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontLeft_shank_outer.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="OuterKnee_FL" type="revolute">
+    <origin xyz="0 0.000749999999999196 -0.175000000000029" rpy="0 0.145529485228563 0" />
+    <parent link="OuterThigh_FL" />
+    <child link="OuterShank_FL" />
+    <axis xyz="0 1 0" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="InnerThigh_FL">
+    <inertial>
+      <origin xyz="-0.00087111 -0.0026375 -0.059532" rpy="0 0 0" />
+      <mass value="0.081" />
+      <inertia ixx="1.0" ixy="0" ixz="0" iyy="1.0" iyz="0" izz="1.0" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontLeft_hip_inner.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontLeft_hip_inner.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="InnerTransversalMotor_FL" type="revolute">
+    <origin xyz="0.051699999999999 0.0594499999999993 -1.1338370204463E-05" rpy="0 0 0" />
+    <parent link="MotorHousing_FL" />
+    <child link="InnerThigh_FL" />
+    <axis xyz="0 1 0" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="InnerShank_FL">
+    <inertial>
+      <origin xyz="-0.018257 -5.7848E-07 -0.18193" rpy="0 0 0" />
+      <mass value="0.1993" />
+      <inertia ixx="0.00799515" ixy="-1.3E-07" ixz="0.00072855" iyy="0.00807089" iyz="-1.55E-06" izz="9.64E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontLeft_shank_inner.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontLeft_shank_inner.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="InnerKnee_FL" type="revolute">
+    <origin xyz="0 0.000750000000007855 -0.175000000000014" rpy="0 -0.156107447167547 0" />
+    <parent link="InnerThigh_FL" />
+    <child link="InnerShank_FL" />
+    <axis xyz="0 -1 0" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="Paw_FL">
+    <inertial>
+      <origin xyz="-0.00016141 -2.5484E-07 0.0013973" rpy="0 0 0" />
+      <mass value="0.02" />
+      <inertia ixx="3.73E-06" ixy="-2.6396E-10" ixz="-2E-08" iyy="4.78E-06" iyz="-7.8092E-11" izz="6.37E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontLeft_paw.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontLeft_paw.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="PawJoint_FL" type="fixed">
+    <origin xyz="-0.034316172849209 0 -0.318287120023731" rpy="0 -0.587745839939292 3.14159265358979" />
+    <parent link="InnerShank_FL" />
+    <child link="Paw_FL" />
+    <axis xyz="0 0 0" />
+  </joint>
+  <link name="MotorHousing_FR">
+    <inertial>
+      <origin xyz="0.092829 -0.02913 -0.00023828" rpy="0 0 0" />
+      <mass value="1.4374" />
+      <inertia ixx="0.00232895" ixy="-0.00418147" ixz="-3.194E-05" iyy="0.01861991" iyz="4.4E-06" izz="0.01948836" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontRight_motorHousing.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontRight_motorHousing.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="LateralMotor_FR" type="revolute">
+    <origin xyz="0.143300000000001 -0.104999999999999 0" rpy="0 0 0" />
+    <parent link="Body" />
+    <child link="MotorHousing_FR" />
+    <axis xyz="1 0 0" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="OuterThigh_FR">
+    <inertial>
+      <origin xyz="0.00087111 0.0026375 -0.059532" rpy="0 0 0" />
+      <mass value="0.0805" />
+      <inertia ixx="0.00080743" ixy="-7E-08" ixz="-1.1E-05" iyy="0.00081318" iyz="4.71E-06" izz="8.42E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontRight_hip_outer.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontRight_hip_outer.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="OuterTransversalMotor_FR" type="revolute">
+    <origin xyz="0.141700000000001 -0.0594500000000023 1.13383701978259E-05" rpy="0 0 0" />
+    <parent link="MotorHousing_FR" />
+    <child link="OuterThigh_FR" />
+    <axis xyz="0 -1 0" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="OuterShank_FR">
+    <inertial>
+      <origin xyz="0.0044745 -6.1929E-07 -0.16466" rpy="0 0 0" />
+      <mass value="0.1992" />
+      <inertia ixx="0.0081046" ixy="3E-08" ixz="-8.7E-05" iyy="0.00810896" iyz="-1.7E-06" izz="2.321E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontRight_shank_outer.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontRight_shank_outer.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="OuterKnee_FR" type="revolute">
+    <origin xyz="0 -0.000750000000000334 -0.174999999999994" rpy="0 0.145529485228574 0" />
+    <parent link="OuterThigh_FR" />
+    <child link="OuterShank_FR" />
+    <axis xyz="0 1 0" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="InnerThigh_FR">
+    <inertial>
+      <origin xyz="-0.00087097 0.0026333 -0.059284" rpy="0 0 0" />
+      <mass value="0.081" />
+      <inertia ixx="0.00080451" ixy="7E-08" ixz="1.098E-05" iyy="0.00081035" iyz="4.68E-06" izz="8.51E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontRight_hip_inner.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontRight_hip_inner.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="InnerTransversalMotor_FR" type="revolute">
+    <origin xyz="0.0517000000000003 -0.0594500000000019 1.13383701956029E-05" rpy="0 0 0" />
+    <parent link="MotorHousing_FR" />
+    <child link="InnerThigh_FR" />
+    <axis xyz="0 1 0" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="InnerShank_FR">
+    <inertial>
+      <origin xyz="-0.018257 -5.8199E-07 -0.18193" rpy="0 0 0" />
+      <mass value="0.1992" />
+      <inertia ixx="0.00799515" ixy="-1.3E-07" ixz="0.00072855" iyy="0.00807089" iyz="-1.55E-06" izz="9.64E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontRight_shank_inner.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontRight_shank_inner.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="InnerKnee_FR" type="revolute">
+    <origin xyz="0 -0.000749999999992201 -0.174999999999991" rpy="0 -0.156107447167536 0" />
+    <parent link="InnerThigh_FR" />
+    <child link="InnerShank_FR" />
+    <axis xyz="0 -1 0" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="Paw_FR">
+    <inertial>
+      <origin xyz="-0.00016141 -2.5484E-07 0.0013973" rpy="0 0 0" />
+      <mass value="0.02" />
+      <inertia ixx="3.73E-06" ixy="0" ixz="-2E-08" iyy="4.78E-06" iyz="0" izz="6.37E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontRight_paw.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/FrontRight_paw.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="PawJoint_FR" type="fixed">
+    <origin xyz="-0.0343161728492139 0 -0.318287120023735" rpy="0 -0.587745839939292 3.14159265358979" />
+    <parent link="InnerShank_FR" />
+    <child link="Paw_FR" />
+    <axis xyz="0 0 0" />
+  </joint>
+  <link name="MotorHousing_BL">
+    <inertial>
+      <origin xyz="-0.092829 0.02913 -0.00023828" rpy="0 0 0" />
+      <mass value="1.437" />
+      <inertia ixx="0.00232895" ixy="-0.00418147" ixz="3.194E-05" iyy="0.01861991" iyz="-4.4E-06" izz="0.01948836" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackLeft_motorHousing.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackLeft_motorHousing.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="LateralMotor_BL" type="revolute">
+    <origin xyz="-0.143300000000002 0.149999999999995 0" rpy="0 0 0" />
+    <parent link="Body" />
+    <child link="MotorHousing_BL" />
+    <axis xyz="-1 0 0" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="OuterThigh_BL">
+    <inertial>
+      <origin xyz="-0.00087111 -0.0026375 -0.059532" rpy="0 0 0" />
+      <mass value="0.0805" />
+      <inertia ixx="0.00080743" ixy="-7E-08" ixz="1.1E-05" iyy="0.00081318" iyz="-4.71E-06" izz="8.42E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackLeft_hip_outer.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackLeft_hip_outer.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="OuterTransversalMotor_BL" type="revolute">
+    <origin xyz="-0.141699999999998 0.059450000000001 1.13383699833258E-05" rpy="0 0 0" />
+    <parent link="MotorHousing_BL" />
+    <child link="OuterThigh_BL" />
+    <axis xyz="0 1 0" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="OuterShank_BL">
+    <inertial>
+      <origin xyz="-0.0044745 6.2096E-07 -0.16466" rpy="0 0 0" />
+      <mass value="0.1992" />
+      <inertia ixx="0.0081046" ixy="3E-08" ixz="8.7E-05" iyy="0.00810896" iyz="1.7E-06" izz="2.321E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackLeft_shank_outer.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackLeft_shank_outer.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="OuterKnee_BL" type="revolute">
+    <origin xyz="0 0.000749999999989648 -0.174999999999787" rpy="0 -0.145529485231085 0" />
+    <parent link="OuterThigh_BL" />
+    <child link="OuterShank_BL" />
+    <axis xyz="0 -1 0" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="InnerThigh_BL">
+    <inertial>
+      <origin xyz="0.00087097 -0.0026333 -0.059284" rpy="0 0 0" />
+      <mass value="0.081" />
+      <inertia ixx="0.00080451" ixy="7E-08" ixz="-1.097E-05" iyy="0.00081035" iyz="-4.68E-06" izz="8.51E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackLeft_hip_inner.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackLeft_hip_inner.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="InnerTransversalMotor_BL" type="revolute">
+    <origin xyz="-0.0516999999999978 0.0594500000000004 1.13383700547322E-05" rpy="0 0 0" />
+    <parent link="MotorHousing_BL" />
+    <child link="InnerThigh_BL" />
+    <axis xyz="0 -1 0" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="InnerShank_BL">
+    <inertial>
+      <origin xyz="0.018257 5.8939E-07 -0.18193" rpy="0 0 0" />
+      <mass value="0.1993" />
+      <inertia ixx="0.00799515" ixy="-1.3E-07" ixz="-0.00072855" iyy="0.00807089" iyz="1.55E-06" izz="9.64E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackLeft_shank_inner.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackLeft_shank_inner.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="InnerKnee_BL" type="revolute">
+    <origin xyz="0 0.000749999999984485 -0.174999999999858" rpy="0 0.156107447167218 0" />
+    <parent link="InnerThigh_BL" />
+    <child link="InnerShank_BL" />
+    <axis xyz="0 1 0" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="Paw_BL">
+    <inertial>
+      <origin xyz="0.00016141 2.5484E-07 0.0013973" rpy="0 0 0" />
+      <mass value="0.02" />
+      <inertia ixx="1.236E-05" ixy="0" ixz="5E-08" iyy="1.587E-05" iyz="0" izz="2.129E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackLeft_paw.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackLeft_paw.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="PawJoint_BL" type="fixed">
+    <origin xyz="0.0343161728493504 0 -0.318287120023714" rpy="0 0.587745839939292 -3.14159265358976" />
+    <parent link="InnerShank_BL" />
+    <child link="Paw_BL" />
+    <axis xyz="0 0 0" />
+  </joint>
+  <link name="MotorHousing_BR">
+    <inertial>
+      <origin xyz="-0.092829 -0.02913 0.00023828" rpy="0 0 0" />
+      <mass value="1.437" />
+      <inertia ixx="0.00232895" ixy="0.00418147" ixz="-3.194E-05" iyy="0.01861991" iyz="-4.4E-06" izz="0.01948836" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackRight_motorHousing.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackRight_motorHousing.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="LateralMotor_BR" type="revolute">
+    <origin xyz="-0.1433 -0.150000000000002 0" rpy="0 0 0" />
+    <parent link="Body" />
+    <child link="MotorHousing_BR" />
+    <axis xyz="1 0 0" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="OuterThigh_BR">
+    <inertial>
+      <origin xyz="-0.00087097 0.0026333 -0.059284" rpy="0 0 0" />
+      <mass value="0.081" />
+      <inertia ixx="0.00080451" ixy="7E-08" ixz="1.098E-05" iyy="0.00081035" iyz="4.68E-06" izz="8.51E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackRight_hip_outer.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackRight_hip_outer.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="OuterTransversalMotor_BR" type="revolute">
+    <origin xyz="-0.1417 -0.0594500000000014 -1.13383706822422E-05" rpy="0 0 0" />
+    <parent link="MotorHousing_BR" />
+    <child link="OuterThigh_BR" />
+    <axis xyz="0 1 0" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="OuterShank_BR">
+    <inertial>
+      <origin xyz="-0.0044745 6.1738E-07 -0.16466" rpy="0 0 0" />
+      <mass value="0.1992" />
+      <inertia ixx="0.0081046" ixy="3E-08" ixz="8.7E-05" iyy="0.00810896" iyz="1.7E-06" izz="2.321E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackRight_shank_outer.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackRight_shank_outer.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="OuterKnee_BR" type="revolute">
+    <origin xyz="0 -0.000749999999264783 -0.174999999999897" rpy="0 -0.145529485225738 0" />
+    <parent link="OuterThigh_BR" />
+    <child link="OuterShank_BR" />
+    <axis xyz="0 -1 0" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="InnerThigh_BR">
+    <inertial>
+      <origin xyz="0.00087111 0.0026375 -0.059532" rpy="0 0 0" />
+      <mass value="0.0805" />
+      <inertia ixx="0.00080743" ixy="-7E-08" ixz="-1.1E-05" iyy="0.00081318" iyz="4.71E-06" izz="8.42E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackRight_hip_inner.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackRight_hip_inner.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="InnerTransversalMotor_BR" type="revolute">
+    <origin xyz="-0.0517000000000002 -0.0594500000000022 -1.1338370431546E-05" rpy="0 0 0" />
+    <parent link="MotorHousing_BR" />
+    <child link="InnerThigh_BR" />
+    <axis xyz="0 -1 0" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="InnerShank_BR">
+    <inertial>
+      <origin xyz="0.018257 5.8084E-07 -0.18193" rpy="0 0 0" />
+      <mass value="0.1993" />
+      <inertia ixx="0.00799515" ixy="-1.3E-07" ixz="-0.00072855" iyy="0.00807089" iyz="1.55E-06" izz="9.64E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackRight_shank_inner.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackRight_shank_inner.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="InnerKnee_BR" type="revolute">
+    <origin xyz="0 -0.000749999999271611 -0.174999999999955" rpy="0 0.156107447164923 0" />
+    <parent link="InnerThigh_BR" />
+    <child link="InnerShank_BR" />
+    <axis xyz="0 1 0" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="Paw_BR">
+    <inertial>
+      <origin xyz="0.00016141 2.5484E-07 0.0013973" rpy="0 0 0" />
+      <mass value="0.02" />
+      <inertia ixx="1.245E-05" ixy="0" ixz="6E-08" iyy="1.597E-05" iyz="0" izz="2.129E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackRight_paw.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://olympus_description/urdf/meshes/BackRight_paw.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="PawJoint_BR" type="fixed">
+    <origin xyz="0.0343161728494181 0 -0.318287120023818" rpy="0 0.58774583993929 3.14159265358979" />
+    <parent link="InnerShank_BR" />
+    <child link="Paw_BR" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+
+
+
+
+  <link name="InnerAnkle_BL" />
+  <joint name="InnerAnkleJoint_BL" type="fixed">
+    <origin xyz="0 0 -0.29977" rpy="0 0 0" />
+    <parent link="InnerShank_BL" />
+    <child link="InnerAnkle_BL" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+  <link name="OuterAnkle_BL" />
+  <joint name="OuterAnkleJoint_BL" type="fixed">
+    <origin xyz="-0.00001 0 -0.29929" rpy="0 0 0" />
+    <parent link="OuterShank_BL" />
+    <child link="OuterAnkle_BL" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+  
+
+  <link name="InnerAnkle_BR" />
+  <joint name="InnerAnkleJoint_BR" type="fixed">
+    <origin xyz="0 0 -0.29977" rpy="0 0 0" />
+    <parent link="InnerShank_BR" />
+    <child link="InnerAnkle_BR" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+  <link name="OuterAnkle_BR" />
+  <joint name="OuterAnkleJoint_BR" type="fixed">
+    <origin xyz="-0.00001 0 -0.29929" rpy="0 0 0" />
+    <parent link="OuterShank_BR" />
+    <child link="OuterAnkle_BR" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+  
+
+  <link name="InnerAnkle_FL" />
+  <joint name="InnerAnkleJoint_FL" type="fixed">
+    <origin xyz="0 0 -0.29977" rpy="0 0 0" />
+    <parent link="InnerShank_FL" />
+    <child link="InnerAnkle_FL" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+  <link name="OuterAnkle_FL" />
+  <joint name="OuterAnkleJoint_FL" type="fixed">
+    <origin xyz="0.00001 0 -0.29929" rpy="0 0 0" />
+    <parent link="OuterShank_FL" />
+    <child link="OuterAnkle_FL" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+    
+
+  <link name="InnerAnkle_FR" />
+  <joint name="InnerAnkleJoint_FR" type="fixed">
+    <origin xyz="0 0 -0.29977" rpy="0 0 0" />
+    <parent link="InnerShank_FR" />
+    <child link="InnerAnkle_FR" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+  <link name="OuterAnkle_FR" />
+  <joint name="OuterAnkleJoint_FR" type="fixed">
+    <origin xyz="0.00001 0 -0.29929" rpy="0 0 0" />
+    <parent link="OuterShank_FR" />
+    <child link="OuterAnkle_FR" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+
+</robot>

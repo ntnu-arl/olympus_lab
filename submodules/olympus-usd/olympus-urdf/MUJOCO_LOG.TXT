@@ -1,0 +1,3 @@
+Fri Aug 16 12:44:21 2024
+ERROR: could not create window
+
