@@ -1,0 +1,5 @@
+
+x-default-olympus-lab-environment: &default-olympus-lab-environment
+  - ISAACSIM_PATH=${DOCKER_ISAACLAB_PATH}/_isaac_sim
+  - OMNI_KIT_ALLOW_ROOT=1
+

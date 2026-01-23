@@ -1,0 +1,4 @@
+[submodule "submodules/olympus-usd"]
+	path = submodules/olympus-usd
+	url = git@github.com:ntnu-arl/olympus-usd.git
+
