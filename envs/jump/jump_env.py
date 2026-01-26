@@ -1,3 +1,10 @@
+# Copyright (c) 2022-2026, The Isaac Lab Project Developers.
+# All rights reserved.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# Modified by Jørgen Anker Olsen, NTNU Autonomous Robots Lab, 2026
+
 from __future__ import annotations
 
 from typing import Tuple, List, Dict
@@ -42,7 +49,7 @@ from .simulation_logger import SimulationLogger
 
 
 class JumpEnv(DirectRLEnv):
-    '''Jump environment for training jumping in martian gravity. With optional five-bar leg springs.'''
+    '''Jump environment for training jumping policy for Olympus in martian gravity. With optional five-bar leg springs.'''
     cfg: JumpEnvCfg
 
     def __init__(self, cfg: JumpEnvCfg, render_mode: str | None = None, **kwargs):
@@ -86,15 +93,14 @@ class JumpEnv(DirectRLEnv):
         self._touchdown_rejump_enabled = False
 
     def _init_buffers(self):
+        ''' Initialize all buffers used in the environment '''
         with torch.device(self.device):
-            # Joint position command (deviation from default joint positions)
             self._actions = torch.zeros(self.num_envs, self.cfg.action_space)
             self._processed_actions = torch.zeros_like(self._actions)
             self._filtered_action = torch.zeros_like(self._actions)
             self._previous_actions = torch.zeros(self.num_envs, self.cfg.action_space)
             self._previous_torque = torch.zeros_like(self._actions)
             self._previous_root_pos = torch.zeros(self.num_envs, 3)
-            # X/Y/Z landing position commands
             self._commands = torch.zeros(self.num_envs, 3)
             self._close_to_goal_count = torch.zeros(self.num_envs, dtype=torch.int)
             self._low_attitude_error_count = torch.zeros(self.num_envs, dtype=torch.int)
@@ -297,13 +303,15 @@ class JumpEnv(DirectRLEnv):
     def _pre_physics_step(self, actions: torch.Tensor):
         ''' rescale, offset, and filter the actions before applying them to the robot '''
         self._actions[:] = actions
+        # rescale and offset - lateral
         self._processed_actions[:, :4] = (
             self.cfg.lateral_action_scale * self._actions[:, :4] + self._robot.data.default_joint_pos[:, :4]
         )
+        # rescale and offset - transversal
         self._processed_actions[:, 4:] = (
             self.cfg.transversal_action_scale * self._actions[:, 4:] + self._robot.data.default_joint_pos[:, 4:12]
         )
-
+        # filter with motor command filter
         self._filtered_action[:] = self._joint_pos_target_history.compute(
             self._motor_command_filter.filter(
                 joint_commands=self._processed_actions,
@@ -383,7 +391,7 @@ class JumpEnv(DirectRLEnv):
             + torch.randn_like(self._measured_joint_vel).clamp(-1, 1)
             * (self.cfg.observation_noise.joint_vel_noise_deg * torch.pi / 180)
         )
-
+        # compute landing target vector
         commands = self._commands.clone()
         commands[:, 2] = 0
 
@@ -516,7 +524,7 @@ class JumpEnv(DirectRLEnv):
         rew_impact = torch.where(
             short_since_landing, (1 - impact_acc / (self.cfg.termination.max_impact_acc)).clamp(min=0.0), 0
         )
-
+        # stance impact reward
         rew_stance_impact = torch.where(
             self._jump_state_machine.states == JumpState.STANCE,
             (impact_acc / (self.cfg.termination.max_impact_acc_stance)).clamp(-1, 0),
@@ -562,7 +570,7 @@ class JumpEnv(DirectRLEnv):
             * self.cfg.damp_landing_with_legs_reward_scale
             * self.step_dt,
         }
-
+        # add regularization rewards
         rewards.update(self._calculate_regularization_rewards())
 
         for key, value in rewards.items():
@@ -575,7 +583,7 @@ class JumpEnv(DirectRLEnv):
             if nan_mask.any():
                 print(f"NaN in reward {key}")
 
-
+        # total reward
         reward = torch.sum(torch.stack(list(rewards.values())), dim=0)
 
         # Logging
@@ -638,7 +646,7 @@ class JumpEnv(DirectRLEnv):
             contact_state=self.contact_state,
         )
 
-        ## rejump
+        ## rejump logic
         if not self._touchdown_rejump_enabled:
 
             mask = self._init_schemes == InitializationScheme.STANDING
@@ -713,10 +721,11 @@ class JumpEnv(DirectRLEnv):
         self._idle_count[self._jump_state_machine.states != JumpState.STANCE] = 0
 
         self._episode_end[:] = (self.episode_length_buf - self._episode_start_step) >= self.max_episode_length - 1
+        # goal reached termination
         self._terminate_on_goal[:] = self._jump_state_machine.steps_since_touchdown >= 1.0 / self.step_dt
 
         time_out = self._episode_end | self._terminate_on_goal
-
+        # collision termination
         self._terminate_collision[:] = self.collision_state
 
         yaw = quat_to_euler_zyx(self._robot.data.root_quat_w)[-1]
@@ -730,6 +739,7 @@ class JumpEnv(DirectRLEnv):
         self._max_impact_acc[self._jump_state_machine.states == JumpState.STANCE] = (
             self.cfg.termination.max_impact_acc_stance
         )
+        # impact termination
         self._max_impact_acc[self._jump_state_machine.states != JumpState.STANCE] = self.cfg.termination.max_impact_acc
         self._terminate_impact[:] = (
             torch.sum(
@@ -739,7 +749,7 @@ class JumpEnv(DirectRLEnv):
             )
             < -self._max_impact_acc
         )
-
+        # nan termination
         self._terminate_nan[:] = (
             torch.isnan(self._robot.data.body_state_w[:, self._base_id]).any(dim=-1)
             | (torch.isnan(self._robot.data.joint_pos).any(dim=-1))
@@ -755,7 +765,7 @@ class JumpEnv(DirectRLEnv):
         )
 
         self._terminate_landed[:] = False # experimental disable
-
+        # takeoff termination
         self._terminate_takeoff[:] = self._jump_state_machine.takeoff * (
             (self._jump_state_machine.states == JumpState.LANDED) 
             & (~self._should_rejump)  
@@ -769,13 +779,14 @@ class JumpEnv(DirectRLEnv):
         terminate_bad_takeoff = (estimated_landing_pos.norm(dim=1) > 1.5) * (
             self._jump_state_machine.steps_since_takeoff > 0.1 / self.step_dt
         )
-
+        # terminate if estimated landing position is way off
         self._terminate_takeoff.logical_or_(terminate_bad_takeoff)
-
+        # walking termination
         self._terminate_walking[:] = (self._jump_state_machine.states == JumpState.STANCE) * (
             self.walk_vec[:, :2].norm(dim=-1) > self.cfg.termination.walking_distance
         )
 
+        # idle termination
         self._terminate_idle[:] = (self._jump_state_machine.states == JumpState.STANCE) * (
             ((self.episode_length_buf - self._episode_start_step) > 2.0 / self.step_dt)
         ) | (self._idle_count > 0.3 / self.step_dt)
@@ -783,7 +794,7 @@ class JumpEnv(DirectRLEnv):
         shank_height = self._robot.data.body_pos_w[:, self._shank_ids, 2]
         self._terminate_shank_height[:] = (shank_height < 0.025).any(dim=1)
         self._terminate_shank_height[:] = False
-
+        # root height termination
         self._terminate_root_height[:] = self._robot.data.root_pos_w[:, 2] < self.cfg.termination.min_root_height
         # termination conditions
         died = (
@@ -1066,7 +1077,7 @@ class JumpEnv(DirectRLEnv):
         ).float()
 
         contact_change = (contact_state - prev_contact_state).abs().sum(dim=1)
-
+        # paw forces
         paw_forces = (
             self._contact_sensor.data.net_forces_w_history[:, :, self._feet_contact_ids]
             .square()
@@ -1074,7 +1085,7 @@ class JumpEnv(DirectRLEnv):
             .mean(dim=-1)
             .mean(dim=-1)
         )
-
+        # joint symmetry reward
         joint_symmetry = (
             (
                 self._robot.data.joint_pos[:, self._left_transversal_indices]

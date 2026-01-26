@@ -1,3 +1,10 @@
+# Copyright (c) 2022-2026, The Isaac Lab Project Developers.
+# All rights reserved.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# Modified by Jørgen Anker Olsen, NTNU Autonomous Robots Lab, 2026
+
 from __future__ import annotations
 from typing import Dict, TYPE_CHECKING, Literal
 
@@ -36,7 +43,7 @@ DEG2RAD = torch.pi / 180.0
 
 _OLYMPUS_CONFIG = OlympusConfig(
     actuators={
-        "lateral_motors": cube_mars.get_AK809_cfg(
+        "lateral_motors": cube_mars.get_AK809_cfg( # lateral motors
             joint_names_expr=["LateralMotor.*"],
             kp=17.0,
             kd=0.9 * 2.0,
@@ -45,7 +52,7 @@ _OLYMPUS_CONFIG = OlympusConfig(
             min_delay=0,
             max_delay=0,
         ),
-        "transversal_motors": cube_mars.get_AK7010_cfg(
+        "transversal_motors": cube_mars.get_AK7010_cfg( # transversal motors
             joint_names_expr=[".*TransversalMotor.*"],
             kp=20.0,
             kd=0.4 * 2.0,
@@ -63,7 +70,7 @@ _OLYMPUS_CONFIG = OlympusConfig(
         ),
     },
     motor_command_filter=MotorCommandFilterCfg(
-        # angle threshold parameters are in degrees
+        # angle threshold parameters in degrees
         lateral_motor_joint_limits=(-15, 15),
         transversal_motor_joint_limits=(-30.0, 140),
         transversal_joint_sum_limits=(0, 240),

@@ -1,3 +1,10 @@
+# Copyright (c) 2022-2026, The Isaac Lab Project Developers.
+# All rights reserved.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# Modified by Jørgen Anker Olsen, NTNU Autonomous Robots Lab, 2026
+
 from __future__ import annotations
 from typing import Dict, TYPE_CHECKING, Literal
 
@@ -39,7 +46,7 @@ _OLYMPUS_CONFIG = OlympusConfig(
 # Configuration for the Olympus robot in the Jump environment.
 
     actuators={
-        "lateral_motors": cube_mars.get_AK809_cfg(
+        "lateral_motors": cube_mars.get_AK809_cfg( # lateral motors config
             joint_names_expr=["LateralMotor.*"],
             kp=17.0,
             kd=0.9 * 2.0,
@@ -48,7 +55,7 @@ _OLYMPUS_CONFIG = OlympusConfig(
             min_delay=0,
             max_delay=0,
         ),
-        "transversal_motors": cube_mars.get_AK7010_cfg(
+        "transversal_motors": cube_mars.get_AK7010_cfg( # transversal motors config
             joint_names_expr=[".*TransversalMotor.*"],
             kp=20.0,
             kd=0.4 * 2.0,
@@ -66,6 +73,7 @@ _OLYMPUS_CONFIG = OlympusConfig(
         ),
     },
     motor_command_filter=MotorCommandFilterCfg(
+        # motor command filtering configuration - in degrees
         lateral_motor_joint_limits=(-15, 15),
         transversal_motor_joint_limits=(-30.0, 140),
         transversal_joint_sum_limits=(0, 220),
@@ -157,7 +165,7 @@ def zero_forces_in_flight(
 @configclass
 class EventCfg:
     """Configuration for randomization."""
-
+    # ground friction 
     physics_material = EventTerm(
         func=mdp.randomize_rigid_body_material,
         mode="startup",
@@ -413,7 +421,7 @@ class JumpEnvCfg(DirectRLEnvCfg):
         track_air_time=True,
     )
 
-    # initializer - curriculum - sets the initialization scheme frequencies
+    # initializer - curriculum - sets the initialization scheme fractions
     scheme_fraqs: Dict[str, float] = {
         InitializationScheme.STANDING.name: 0.40,
         InitializationScheme.DEFAULT.name: 0.15,

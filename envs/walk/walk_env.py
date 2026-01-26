@@ -1,3 +1,10 @@
+# Copyright (c) 2022-2026, The Isaac Lab Project Developers.
+# All rights reserved.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# Modified by Jørgen Anker Olsen, NTNU Autonomous Robots Lab, 2026
+
 from __future__ import annotations
 
 from typing import Tuple, List
@@ -32,7 +39,7 @@ from .keyboard_control import KeyboardCommands
 from .simulation_logger import SimulationLogger
 
 class WalkEnv(DirectRLEnv):
-    ''' environment class for the Walk task using the Olympus robot in martian gravity. '''
+    ''' Environment class for training RL policy for walking using the Olympus robot in martian gravity. '''
     cfg: WalkEnvCfg
 
     def __init__(self, cfg: WalkEnvCfg, render_mode: str | None = None, **kwargs):
@@ -460,7 +467,7 @@ class WalkEnv(DirectRLEnv):
             "base_height_reward": base_height_reward * self.cfg.base_height_reward_scale * self.step_dt,
             "lateral_symmetry_reward": lateral_symmetry_reward * self.cfg.lateral_symmetry_reward_scale * self.step_dt
         }
-
+        # regularization rewards
         rewards.update(self._calculate_regularization_rewards())
 
         invalid_state = (
@@ -595,7 +602,7 @@ class WalkEnv(DirectRLEnv):
             (self._robot.data.root_pos_w[:, 2] > 5.0)
         )
         
-        # cCombine all termination conditions
+        # combine all termination conditions
         self._terminate_collision[:] = (
             body_collision | 
             leg_collision | 
