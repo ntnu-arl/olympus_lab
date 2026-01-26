@@ -13,7 +13,7 @@ EMAIL=$2
 
 # Configure git safe directory
 git config --global --add safe.directory /workspace/Olympus-Lab
-git config --global --add safe.directory /workspace/Olympus-Lab/submodules/olympus-usd
+git config --global --add safe.directory /workspace/Olympus-Lab/submodules/olympus_usd
 git config --global user.name "$NAME"
 git config --global user.email "$EMAIL"
 

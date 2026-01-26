@@ -31,7 +31,7 @@ class OlympusConfig(ArticulationCfg):
     prim_path = "/World/envs/env_.*/Olympus"
 
     spawn = sim_utils.UsdFileCfg(
-        usd_path=f"{os.getcwd()}/submodules/olympus-usd/olympus-knee-damping.usd",
+        usd_path=f"{os.getcwd()}/submodules/olympus_usd/olympus-knee-damping.usd",
         activate_contact_sensors=True,
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             disable_gravity=False,

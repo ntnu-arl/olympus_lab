@@ -27,7 +27,7 @@ from . import ckc
 class OlympusKinematics:
     def __init__(self) -> None:
         self._olympus_model = JaxSimModel.build_from_model_description(
-            "submodules/olympus-usd/olympus-urdf/olympus.urdf", is_urdf=True
+            "submodules/olympus_usd/olympus-urdf/olympus.urdf", is_urdf=True
         )
 
         self._resolve_indexes()
