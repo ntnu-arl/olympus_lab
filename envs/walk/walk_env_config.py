@@ -1,3 +1,10 @@
+# Copyright (c) 2022-2026, The Isaac Lab Project Developers.
+# All rights reserved.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# Modified by Jørgen Anker Olsen, NTNU Autonomous Robots Lab, 2026
+
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
@@ -82,7 +89,7 @@ def apply_external_force_torque(
 @configclass
 class EventCfg:
     """Configuration for randomization."""
-
+    # ground friction
     physics_material = EventTerm(
         func=mdp.randomize_rigid_body_material,
         mode="startup",
@@ -95,7 +102,7 @@ class EventCfg:
             "make_consistent": True,
         },
     )
-
+    # add mass to base
     add_base_mass = EventTerm(
         func=mdp.randomize_rigid_body_mass,
         mode="startup",
@@ -106,7 +113,7 @@ class EventCfg:
             "recompute_inertia": True,
         },
     )
-
+    # added mass to links
     add_link_mass = EventTerm(
         func=mdp.randomize_rigid_body_mass,
         mode="startup",
@@ -117,7 +124,7 @@ class EventCfg:
             "recompute_inertia": True,
         },
     )
-
+    # center of mass of the body
     body_center_of_mass = EventTerm(
         func=mdp.randomize_rigid_body_com,
         mode="startup",
@@ -154,7 +161,7 @@ class EventCfg:
             "com_range": {"x": (-0.0025, 0.0025), "y": (-0.0025, 0.0025), "z": (-0.0025, 0.0025)},
         },
     )
-
+    # actuator gains
     actuator_gains = EventTerm(
         func=mdp.randomize_actuator_gains,
         mode="reset",
@@ -166,7 +173,7 @@ class EventCfg:
             "distribution": "uniform",
         },
     )
-
+    # motor model
     motor_model = EventTerm(
         func=cube_mars.randomize_cubemars_model,
         mode="reset",
@@ -178,7 +185,7 @@ class EventCfg:
             "distribution": "uniform",
         },
     )
-
+    # joint armature
     joint_armature = EventTerm(
         func=mdp.randomize_joint_parameters,
         mode="startup",
@@ -189,7 +196,7 @@ class EventCfg:
             "distribution": "uniform",
         },
     )
-
+    # joint armature
     joint_friction = EventTerm(
         func=mdp.randomize_joint_parameters,
         mode="startup",
@@ -200,6 +207,7 @@ class EventCfg:
             "distribution": "uniform",
         },
     )
+    # external pushes
     push_robot = EventTerm(
         func=apply_external_force_torque,
         mode="interval",
@@ -250,7 +258,7 @@ _OLYMPUS_CONFIG = OlympusConfig(
         ),
     },
     motor_command_filter=MotorCommandFilterCfg(
-        # filter parameters
+        # filter parameters - in degrees
         lateral_motor_joint_limits=(-50.0, 180),
         transversal_motor_joint_limits=(-30.0, 140),
         transversal_joint_sum_limits=(0, 220),

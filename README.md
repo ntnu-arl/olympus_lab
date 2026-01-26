@@ -22,9 +22,9 @@ Video showing Top left: down from height, top right: jump onto uneven landing, b
 ## Key features
 
 - Multiple quadruped locomotion tasks for Earth gravity
-  - Walking, horizontal jumping, vetical jumping
-- Multiple quadruped locomotion tasks for Mars gravity (coming soon)
-  - Walking, horizontal jumping, vetical jumping
+  - Walking, horizontal jumping, vertical jumping
+- Multiple quadruped locomotion tasks for Mars gravity 
+  - Walking, horizontal jumping, vertical jumping
 - In-flight attitude control task
 - Earth based policies tested on the Olympus uadruped
 - Atitude control policy demonstraded at ESA's Orbitz facitlity at the Orbital Robotics Lab at ESTEC Netherlands
@@ -38,8 +38,8 @@ This guide will help you set up **Olympus-Lab** using Docker to run reinforcemen
 
 ### Step 1: Clone the Repository
    ``` 
-   git clone --recurse-submodules git@github.com:ntnu-arl/Olympus-Lab.git
-   cd Olympus-Lab
+   git clone --recurse-submodules git@github.com:ntnu-arl/olympus_lab.git
+   cd olympus_lab
   ```    
 
 ### Step 2: Generate docker-compose.yaml ###
@@ -120,7 +120,7 @@ python play.py --task <task>
 python play.py --task <task name> --video --video_length <video length>
 ```
 
-Note that for the Horizntal jump and Vertial jump use the task name "Olympus-Jump-Play "and "Olympus-Vertidal-Jump-Play" to always initialise in standig and with randomly sammpled jump height form all corriculim stages.
+Note: For jump environments (including Mars), use the specific play task names (e.g. Olympus-Jump-Mars-Play, Olympus-Vertical-Jump-Play). This ensures the robot initializes in a standing position with jump heights randomly sampled from all curriculum stages.
 
 ### Limit GPU memory usage
 If you run out of GPU memory, this is likely because the JAX code for the inverse kinematics pre-alllocates 75% of the VRAM. To limit this, pass the following env variable when launching the train/play:
@@ -130,14 +130,24 @@ XLA_PYTHON_CLIENT_MEM_FRACTION=.XX python train/play.py < >
 ```
 To get a consistent configuration, you can edit `docker/.env.user`. 
 
-The tasks are split into three vategories, 1. Earth graviy, 2. Mars gravity (coming soon), 3. Zero gravity.
-The full list of tasks supported out of the box are:
-- Earth gravity
-  - ```Olympus-Walk``` - ```Olympus-Jump``` - ```Olympus-Vertical-Jump```
-- Mars gravity (coming soon)
-  - ```Olympus-Walk-Mars``` - ```Olympus-Jump-Mars``` - ```Olympus-Vertical-Jump-Mars```
-- Zero gravity
-  - ```Olympus-Attitude-Control```
+### Available Tasks & Branches
+
+The policies are distributed across two branches. Please ensure you are on the correct branch for the task you wish to run.
+
+* **`main` branch:** Contains Earth gravity and Attitude Control policies.
+* **`mars_gravity` branch:** Contains Mars walking and jumping policies.
+
+**Full Task List:**
+* **Earth Gravity** (use `main` branch)
+  * `Olympus-Walk`
+  * `Olympus-Jump`
+  * `Olympus-Vertical-Jump`
+* **Zero Gravity** (use `main` branch)
+  * `Olympus-Attitude-Control`
+* **Mars Gravity** (use `mars_gravity` branch)
+  * `Olympus-Walk-Mars`
+  * `Olympus-Jump-Mars`
+  * `Olympus-Vertical-Jump-Mars`
 
 
 ### Tensorboard
@@ -191,12 +201,10 @@ Jørgen Anker Olsen &nbsp;&nbsp;&nbsp; [Email](mailto:jorgen.a.olsen@gmail.com) 
 Lars Rønhaug Pettersen &nbsp;&nbsp;&nbsp; [Email](mailto:lars.r.pettersen@hotmail.com) &nbsp; [GitHb](https://github.com/larsrpe) &nbsp; [LinkedIn](https://www.linkedin.com/in/lars-r%C3%B8nhaug-pettersen-517ba9250/)
 
 Kostas Alexis &nbsp;&nbsp;&nbsp;&nbsp; [Email](mailto:konstantinos.alexis@ntnu.no) &nbsp;  [GitHub](https://github.com/kostas-alexis) &nbsp; 
- [LinkedIn](https://www.linkedin.com/in/kostas-alexis-67713918/) &nbsp; [X (formerly Twitter)](https://twitter.com/arlteam)
+ [LinkedIn](https://www.linkedin.com/in/kostas-alexis-67713918/)
 
 
 ## Acknowledgements
 This repository builds upon [Isaac Lab](https://github.com/isaac-sim/IsaacLab)](https://github.com/isaac-sim/IsaacLab)
 
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
   

@@ -99,6 +99,8 @@ class VerticalJumpEnv(DirectRLEnv):
         self.jump_test_enabled = False
 
     def _init_buffers(self):
+        '''Initialize tensors used in the environment.'''
+
         with torch.device(self.device):
             self._actions = torch.zeros(self.num_envs, self.cfg.action_space)
             self._processed_actions = torch.zeros_like(self._actions)
@@ -106,7 +108,6 @@ class VerticalJumpEnv(DirectRLEnv):
             self._previous_actions = torch.zeros(self.num_envs, self.cfg.action_space)
             self._previous_torque = torch.zeros_like(self._actions)
             self._previous_root_pos = torch.zeros(self.num_envs, 3)
-            # X/Y/Z landing position commands
             self._commanded_jump_height = torch.zeros(self.num_envs, 1)
             self._jump_toggle = torch.zeros(self.num_envs, 1)
             self._low_attitude_error_count = torch.zeros(self.num_envs, dtype=torch.int)
@@ -236,6 +237,7 @@ class VerticalJumpEnv(DirectRLEnv):
         self._right_transversal_indices = make_slice_if_contigious(self._right_transversal_indices)
 
     def _init_initializers(self):
+        '''Initialize the jump initializers for different curriculum schemes.'''
         self._kinematics = OlympusKinematics()
         self._initializers: Dict[InitializationScheme, List[List[JumpInitializerBase]]] = {}
 
@@ -339,6 +341,8 @@ class VerticalJumpEnv(DirectRLEnv):
         self.jump_counter += 1
 
     def _pre_physics_step(self, actions: torch.Tensor):
+        '''Scale, offset, and filter the actions before applying them to the robot.'''
+
         self._actions[:] = actions
         if self.jump_test_enabled:
             self.preprogrammed_jump_test()
@@ -364,9 +368,11 @@ class VerticalJumpEnv(DirectRLEnv):
         self._filtered_action = mean_filtered_actions
 
     def _apply_action(self):
+        '''Apply the filtered joint position targets to the robot'''
         self._robot.set_joint_position_target(self._filtered_action, self._actuated_joint_ids)
 
     def _get_observations(self) -> dict:
+        '''Get the current observations for the policy.'''
         self._previous_actions[:] = self._actions
         self._previous_torque[:] = self._robot.data.applied_torque[:, self._actuated_joint_ids]
 
@@ -448,6 +454,7 @@ class VerticalJumpEnv(DirectRLEnv):
         return observations
 
     def _get_rewards(self) -> torch.Tensor:
+        '''Compute the reward for the current timestep.'''
 
         has_landed = self._jump_state_machine.states == JumpState.LANDED
 
@@ -466,7 +473,7 @@ class VerticalJumpEnv(DirectRLEnv):
             height_rew_func(est_jump_height),
             0.0,
         )
-
+        # horizontal velocity reward
         xy_vel = self._robot.data.root_lin_vel_w[:, :2].square().sum(dim=1).sqrt()
         xy_vel_reward = torch.exp(-xy_vel / (0.2**2))
 
@@ -608,7 +615,7 @@ class VerticalJumpEnv(DirectRLEnv):
             * self.cfg.air_default_position_reward_scale
             * self.step_dt,
         }
-
+        # regularization rewards
         rewards.update(self._calculate_regularization_rewards())
 
         for key, value in rewards.items():
@@ -621,6 +628,7 @@ class VerticalJumpEnv(DirectRLEnv):
             if nan_mask.any():
                 print(f"NaN in reward {key}")
 
+        # total reward
         reward = torch.sum(torch.stack(list(rewards.values())), dim=0)
 
         # logging
@@ -695,12 +703,13 @@ class VerticalJumpEnv(DirectRLEnv):
             self._jump_state_machine.states == JumpState.STANCE
         ].int()
         self._idle_count[self._jump_state_machine.states != JumpState.STANCE] = 0
-
+        # max episode length termination
         self._episode_end[:] = self.episode_length_buf >= self.max_episode_length - 1
+        # goal termination
         self._terminate_on_goal[:] = self._jump_state_machine.steps_since_touchdown >= 1.0 / self.step_dt
 
         time_out = self._episode_end | self._terminate_on_goal
-
+        # collision termination
         self._terminate_collision[:] = self.collision_state
 
         self._terminate_touchdown[:] = self._jump_state_machine.touchdown * (
@@ -716,6 +725,7 @@ class VerticalJumpEnv(DirectRLEnv):
         self._max_impact_acc[
             (self._jump_state_machine.states == JumpState.IN_FLIGHT) | self._jump_state_machine.touchdown
         ] = self.cfg.termination.max_impact_acc
+        # impact acceleration termination
         self._terminate_impact[:] = (
             torch.sum(
                 self._robot.data.body_acc_w[:, self._base_id, :3]
@@ -724,7 +734,7 @@ class VerticalJumpEnv(DirectRLEnv):
             )
             < -self._max_impact_acc
         )
-
+        # nan state termination
         self._terminate_nan[:] = (
             torch.isnan(self._robot.data.body_state_w).any(dim=(1, 2))  
             | torch.isnan(self._robot.data.joint_pos).any(dim=-1)
@@ -733,19 +743,19 @@ class VerticalJumpEnv(DirectRLEnv):
             | torch.isnan(self._robot.data.body_acc_w).any(dim=(1, 2))  
             | torch.isnan(self._robot.data.applied_torque).any(dim=-1)
         )
-
+        # landed termination
         self._terminate_landed[:] = self._jump_state_machine.takeoff * (
             self._jump_state_machine.states == JumpState.LANDED
         )
-
+        # takeoff velocity termination
         self._terminate_takeoff[:] = self._jump_state_machine.takeoff * (
             self._robot.data.root_vel_w[:, :2].norm(dim=-1) > self.cfg.termination.max_takeoff_velocity_xy
         )
-
+        # walking termination
         self._terminate_walking[:] = (self._jump_state_machine.states == JumpState.STANCE) * (
             self.walk_vec[:, :2].norm(dim=-1) > self.cfg.termination.walking_distance
         )
-
+        # idle termination
         self._terminate_idle[:] = (self._jump_state_machine.states == JumpState.STANCE) * (
             ((self.episode_length_buf - self._episode_start_step) > 3.0 / self.step_dt)
             | (self._idle_count > 1.0 / self.step_dt)
@@ -753,7 +763,7 @@ class VerticalJumpEnv(DirectRLEnv):
 
         shank_height = self._robot.data.body_pos_w[:, self._shank_ids, 2]
         self._terminate_shank_height[:] = (shank_height < 0.025).any(dim=1)
-
+        # root height termination
         self._terminate_root_height[:] = self._robot.data.root_pos_w[:, 2] < self.cfg.termination.min_root_height
 
         roll_raw, pitch_raw, yaw_raw = euler_xyz_from_quat(self._robot.data.root_quat_w)
@@ -767,7 +777,7 @@ class VerticalJumpEnv(DirectRLEnv):
         roll_limit = max_attitude_limits
         pitch_limit = max_attitude_limits
         yaw_limit = max_attitude_limits
-
+        # attitude termination
         self._terminate_attitude[:] = (
             (torch.abs(roll) > roll_limit) | (torch.abs(pitch) > pitch_limit) | (torch.abs(yaw) > yaw_limit)
         )
@@ -777,8 +787,9 @@ class VerticalJumpEnv(DirectRLEnv):
 
         x_distance = torch.abs(self._robot.data.root_pos_w[:, 0] - self._terrain.env_origins[:, 0])
         y_distance = torch.abs(self._robot.data.root_pos_w[:, 1] - self._terrain.env_origins[:, 1])
-
+        # translation termination
         self._terminate_translation[:] = (x_distance > x_translation_limit) | (y_distance > y_translation_limit)
+        
         # termination conditions
         died = (
             self._terminate_collision
@@ -854,6 +865,7 @@ class VerticalJumpEnv(DirectRLEnv):
         return died, time_out
 
     def _reset_idx(self, env_ids: torch.Tensor | None):
+        '''Reset the environments.'''
         num_resets = len(env_ids)
         if env_ids is None or num_resets == self.num_envs:
             env_ids = self._robot._ALL_INDICES
@@ -1061,7 +1073,7 @@ class VerticalJumpEnv(DirectRLEnv):
         ).float()
 
         contact_change = (contact_state - prev_contact_state).abs().sum(dim=1)
-
+        # paw forces reward
         paw_forces = (
             self._contact_sensor.data.net_forces_w_history[:, :, self._feet_contact_ids]
             .square()
@@ -1073,6 +1085,7 @@ class VerticalJumpEnv(DirectRLEnv):
         joint_symmetry = torch.var(self._robot.data.joint_pos[:, 4:12], dim=1) + self._robot.data.joint_pos[
             :, :4
         ].square().mean(dim=1)
+        # joint symmetry reward
         rew_joint_symmetry = torch.exp(-joint_symmetry / 0.2**2)
 
         rewards = {

@@ -1,3 +1,10 @@
+# Copyright (c) 2022-2026, The Isaac Lab Project Developers.
+# All rights reserved.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# Modified by Jørgen Anker Olsen, NTNU Autonomous Robots Lab, 2026
+
 from __future__ import annotations
 from typing import Dict, TYPE_CHECKING, Literal
 
@@ -64,6 +71,7 @@ _OLYMPUS_CONFIG = OlympusConfig(
         ),
     },
     motor_command_filter=MotorCommandFilterCfg(
+        # motor command filter settings in degrees
         lateral_motor_joint_limits=(-15, 15),
         transversal_motor_joint_limits=(-30.0, 140),
         transversal_joint_sum_limits=(0, 220),
@@ -154,6 +162,7 @@ def zero_forces_in_flight(
 @configclass
 class EventCfg:
     """Configuration for randomization."""
+    # ground friction
     physics_material = EventTerm(
         func=mdp.randomize_rigid_body_material,
         mode="startup",
@@ -300,14 +309,14 @@ class JumpEnvCfg(DirectRLEnvCfg):
     @configclass
     class TerminationConfig:
         ''' Configuration for termination conditions. '''
-        max_impact_acc: float = 5.0 * 9.81
-        max_impact_acc_stance: float = 2.5 * 9.81
-        min_touchdown_height: float = 0.30
-        touchdown_pos_error: float = 0.2
-        touchdown_rot_error: float = 30
-        walking_distance: float = 0.30
-        min_root_height: float = 0.1
-        close_to_goal_threshold: float = 0.15
+        max_impact_acc: float = 5.0 * 9.81 # maximum allowable impact acceleration
+        max_impact_acc_stance: float = 2.5 * 9.81 # maximum allowable impact acceleration when stance 
+        min_touchdown_height: float = 0.30 # meter
+        touchdown_pos_error: float = 0.2 # meter
+        touchdown_rot_error: float = 30 # degrees
+        walking_distance: float = 0.30 # meter
+        min_root_height: float = 0.1 # meter
+        close_to_goal_threshold: float = 0.15 # meter
 
     @configclass
     class ObservationNoiseCfg:
@@ -382,7 +391,7 @@ class JumpEnvCfg(DirectRLEnvCfg):
         track_air_time=True,
     )
 
-    # initializer - curriculum - sets the initialization scheme frequencies
+    # initializer - curriculum - sets the initialization scheme fractions
     scheme_fraqs: Dict[str, float] = { 
         InitializationScheme.STANDING.name: 0.45,
         InitializationScheme.DEFAULT.name: 0.15,
@@ -436,5 +445,5 @@ class JumpEnvCfg(DirectRLEnvCfg):
     joint_accel_reward_scale = -5e-7
     action_rate_reward_scale = -0.03
     contact_change_reward_scale =  0  
-    jerk_reward_scale = 0  # -1e-1
+    jerk_reward_scale = 0  
     symmetry_reward_scale = 20.0  

@@ -1,3 +1,10 @@
+# Copyright (c) 2022-2026, The Isaac Lab Project Developers.
+# All rights reserved.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# Modified by Jørgen Anker Olsen, NTNU Autonomous Robots Lab, 2026
+
 from __future__ import annotations
 
 from math import pi
@@ -25,6 +32,7 @@ from .attitude_control_env_config import AttitudeControlEnvCfg
 from .simulation_logger import SimulationLogger
 
 class AttitudeControlEnv(DirectRLEnv):
+    '''Environment for training attitude control RL policy of the Olympus robot.'''
     cfg: AttitudeControlEnvCfg
 
     def __init__(self, cfg: AttitudeControlEnvCfg, render_mode: str | None = None, **kwargs):
@@ -104,7 +112,7 @@ class AttitudeControlEnv(DirectRLEnv):
                 torch.tensor([1.0, 0.0, 0.0, 0.0], device=self.device).unsqueeze(0).expand(self.num_envs, 4)
             )
             self._orientation_with_noise = None
-            # new
+
             self._joint_pos_bias = torch.zeros(self.num_envs, self._robot.num_joints)
 
             self._terminate_collision = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
@@ -200,17 +208,17 @@ class AttitudeControlEnv(DirectRLEnv):
     def _pre_physics_step(self, actions: torch.Tensor):
         '''Process and apply actions before the physics step.'''
         self._actions[:] = actions
-
+        # scale and offset actions
         self._processed_actions[:] = (
             self.cfg.action_scale * self._actions + self._robot.data.default_joint_pos[:, : self.cfg.action_space]
         )
-
+        # enable for smother actions during small orientation errors
         interpol_coeff = torch.exp(-self._last_orientation_error**2 / 0.03).unsqueeze(-1) * 0.0 # changed to 1.0 for testing
 
         current_positions = self._robot.data.joint_pos[:, : self.cfg.action_space]
 
         self._processed_actions[:] = (1 - interpol_coeff) * self._processed_actions + interpol_coeff * current_positions
-
+        # motor command filter
         self._filtered_action[:] = self._motor_command_filter.filter(
             joint_commands=self._processed_actions,
             joint_positions=self._robot.data.joint_pos[:, : self.cfg.action_space],

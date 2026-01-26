@@ -1,3 +1,10 @@
+# Copyright (c) 2022-2026, The Isaac Lab Project Developers.
+# All rights reserved.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# Modified by Jørgen Anker Olsen, NTNU Autonomous Robots Lab, 2026
+
 from __future__ import annotations
 from typing import Dict, TYPE_CHECKING, Literal
 
@@ -381,7 +388,7 @@ class VerticalJumpEnvCfg(DirectRLEnvCfg):
         track_air_time=True,
     )
 
-    # initializer
+    # initializer - different initialization schemes fractions
     scheme_fraqs: Dict[str, float] = {
         InitializationScheme.STANDING.name: 0.6,
         InitializationScheme.DEFAULT.name: 0.15,
@@ -423,7 +430,7 @@ class VerticalJumpEnvCfg(DirectRLEnvCfg):
     land_pos_error_reward_scale = 0.0
     est_land_pos_error_reward_scale = 0.0
     angvel_reward_scale = 2.0
-    stance_reward_scale = 10.0  # 10 ssem slike smooth landingh
+    stance_reward_scale = 10.0  
     soft_impact_reward_scale = 5.0
     stance_impact_reward_scale = 100
     retract_feet_in_air_reward_scale = 0.0
@@ -444,5 +451,5 @@ class VerticalJumpEnvCfg(DirectRLEnvCfg):
     joint_accel_reward_scale = -1.5e-7
     action_rate_reward_scale = -0.1
     paw_forces_reward_scale = -0.002
-    jerk_reward_scale = 0  # -1e-1
-    symmetry_reward_scale = 35.0  # 2 seems like smooth landing
+    jerk_reward_scale = 0  
+    symmetry_reward_scale = 35.0  

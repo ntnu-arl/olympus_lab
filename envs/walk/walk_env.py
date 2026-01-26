@@ -1,3 +1,10 @@
+# Copyright (c) 2022-2026, The Isaac Lab Project Developers.
+# All rights reserved.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# Modified by Jørgen Anker Olsen, NTNU Autonomous Robots Lab, 2026
+
 from __future__ import annotations
 
 from typing import Tuple, List
@@ -182,7 +189,7 @@ class WalkEnv(DirectRLEnv):
         dir_light.func("/World/DirectionalLight", dir_light)
 
     def _pre_physics_step(self, actions: torch.Tensor):
-        ''' rescale, offset, and filter the actions before applying them to the robot '''  
+        ''' Rescale, offset, and filter the actions before applying them to the robot '''  
         self._actions[:] = actions
 
         self._processed_actions[:, :4] = (
@@ -361,6 +368,7 @@ class WalkEnv(DirectRLEnv):
         transversal_motor_penalty = torch.exp(-5000 * torch.pow(transversal_motor_error, 20)) - 1
         transversal_motor_penalty = torch.sum(transversal_motor_penalty, dim=1)
 
+        # standing joint position reward
         stand_joint_pos = torch.where(
             self._standing_still,
             torch.exp(-transversal_motor_error.square().mean(dim=1) / ((10 * torch.pi / 180) ** 2)),
@@ -418,7 +426,8 @@ class WalkEnv(DirectRLEnv):
             * self.step_dt,
             "rapid_stepping_penalty": rapid_stepping_penalty * self.cfg.rapid_stepping_penalty_scale * self.step_dt,
         }
-
+        
+        # regularization rewards
         rewards.update(self._calculate_regularization_rewards())
 
         reward = torch.sum(torch.stack(list(rewards.values())), dim=0)
