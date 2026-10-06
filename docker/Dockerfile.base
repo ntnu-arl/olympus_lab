@@ -79,6 +79,10 @@ WORKDIR ${ISAACLAB_PATH}
 
 RUN ln -sf ${ISAACSIM_ROOT_PATH} ${ISAACLAB_PATH}/_isaac_sim
 
+# Pin every pip install below to the tested versions (see the header of docker/constraints.txt)
+COPY --chown=olympus:olympus docker/constraints.txt ${DOCKER_USER_HOME}/constraints.txt
+ENV PIP_CONSTRAINT=${DOCKER_USER_HOME}/constraints.txt
+
 # Install toml dependency
 RUN ${ISAACLAB_PATH}/isaaclab.sh -p -m pip install toml
 
@@ -153,6 +157,16 @@ RUN ${ISAACLAB_PATH}/_isaac_sim/python.sh -m pip install jaxsim==0.6.1
 # newer releases require numpy>=2; mashumaro>3.15 needs a newer typing_extensions than the
 # 4.10 that Isaac Sim prebundles and puts first on the path
 RUN ${ISAACLAB_PATH}/_isaac_sim/python.sh -m pip install "numpy<2" "ml-dtypes<0.6" "opencv-python<4.12" "mashumaro==3.15"
+
+# Fail the build if the Python environment is broken: isaaclab.sh --install does not fail on
+# a failed package install. jax/jaxsim are only checked by version, because importing jax
+# outside the Kit app fails in its CUDA nvcc lookup.
+RUN ${ISAACLAB_PATH}/_isaac_sim/python.sh -c "\
+import importlib.metadata as md, isaaclab, isaaclab_rl, rl_games, torch, numpy; \
+assert torch.__version__ == '2.7.0+cu128', torch.__version__; \
+assert numpy.__version__.startswith('1.'), numpy.__version__; \
+assert md.version('jax') == '0.4.35' and md.version('jaxsim') == '0.6.1'; \
+print('environment ok: torch', torch.__version__, 'numpy', numpy.__version__)"
 
 #necesary dependencies for jaxsim
 USER root
