@@ -74,7 +74,7 @@ USER olympus
 
 # Set up a symbolic link between the installed Isaac Sim root folder and _isaac_sim in the Isaac Lab directory
 WORKDIR ${DOCKER_USER_HOME}/workspace
-RUN git clone https://github.com/isaac-sim/IsaacLab.git
+RUN git clone --branch v2.1.1 --depth 1 https://github.com/isaac-sim/IsaacLab.git
 WORKDIR ${ISAACLAB_PATH}
 
 RUN ln -sf ${ISAACSIM_ROOT_PATH} ${ISAACLAB_PATH}/_isaac_sim
@@ -126,6 +126,9 @@ RUN touch /bin/nvidia-smi && \
 USER olympus    
 # installing Isaac Lab dependencies
 # use pip caching to avoid reinstalling large packages
+# flatdict 4.0.1 (isaaclab dep) is sdist-only and needs pkg_resources, removed in setuptools>=81
+RUN ${ISAACLAB_PATH}/_isaac_sim/python.sh -m pip install "setuptools<81" && \
+    ${ISAACLAB_PATH}/_isaac_sim/python.sh -m pip install --no-build-isolation flatdict==4.0.1
 RUN --mount=type=cache,target=${DOCKER_USER_HOME}/.cache/pip \
     ${ISAACLAB_PATH}/isaaclab.sh --install
 
@@ -146,6 +149,10 @@ RUN echo "export ISAACLAB_PATH=${ISAACLAB_PATH}" >> ${DOCKER_USER_HOME}/.bashrc 
 
 RUN ${ISAACLAB_PATH}/_isaac_sim/python.sh -m pip install jax[cuda12]==0.4.35
 RUN ${ISAACLAB_PATH}/_isaac_sim/python.sh -m pip install jaxsim==0.6.1
+# keep numpy<2 (Isaac Sim 4.5 modules are built against numpy 1), so also cap packages whose
+# newer releases require numpy>=2; mashumaro>3.15 needs a newer typing_extensions than the
+# 4.10 that Isaac Sim prebundles and puts first on the path
+RUN ${ISAACLAB_PATH}/_isaac_sim/python.sh -m pip install "numpy<2" "ml-dtypes<0.6" "opencv-python<4.12" "mashumaro==3.15"
 
 #necesary dependencies for jaxsim
 USER root
