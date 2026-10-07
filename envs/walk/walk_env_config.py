@@ -363,7 +363,7 @@ class WalkEnvCfg(DirectRLEnvCfg):
     standing_joint_pos_reward_scale = 1.5
 
     # experimental reward
-    lateral_motor_reward_scale = 0.18
+    lateral_motor_reward_scale = 0.2
     transverse_motor_reward_scale = 0.1
     rapid_stepping_penalty_scale = -0.15
 
