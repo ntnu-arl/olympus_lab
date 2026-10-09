@@ -4,9 +4,9 @@
 
 current_dir=$(pwd)
 
-# Assert that the current directory is Olympus-Lab
-if [ "$(basename "$current_dir")" != "Olympus-Lab" ]; then
-    echo "Error: The script must be run from the 'Olympus-Lab' directory!"
+# Assert that the current directory is olympus_lab
+if [ "$(basename "$current_dir")" != "olympus_lab" ]; then
+    echo "Error: The script must be run from the 'olympus_lab' directory!"
     exit 1
 fi
 
