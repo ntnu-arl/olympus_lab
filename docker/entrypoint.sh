@@ -12,13 +12,13 @@ EMAIL=$2
 
 
 # Configure git safe directory
-git config --global --add safe.directory /workspace/Olympus-Lab
-git config --global --add safe.directory /workspace/Olympus-Lab/submodules/olympus_usd
+git config --global --add safe.directory ${DOCKER_OLYMPUSLAB_PATH}
+git config --global --add safe.directory ${DOCKER_OLYMPUSLAB_PATH}/submodules/olympus_usd
 git config --global user.name "$NAME"
 git config --global user.email "$EMAIL"
 
 
-${ISAACLAB_PATH}/_isaac_sim/python.sh ${OLYMPUSLAB_PATH}/.vscode/tools/setup_vscode.py
+${ISAACLAB_PATH}/_isaac_sim/python.sh ${DOCKER_OLYMPUSLAB_PATH}/.vscode/tools/setup_vscode.py
 
 
 
